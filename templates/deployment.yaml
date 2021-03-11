@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.helloGo.name }}
+  labels:
+    app: {{ .Values.helloGo.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.helloGo.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.helloGo.name }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Values.helloGo.name }}
+          image: "{{ .Values.helloGo.container.image }}:{{ .Values.helloGo.container.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.helloGo.container.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.helloGo.container.port }}
+              protocol: TCP

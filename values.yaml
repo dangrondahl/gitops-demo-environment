@@ -1,0 +1,11 @@
+replicaCount: 1
+
+imagePullSecrets: []
+
+helloGo:
+    name: hello-go
+    container:
+        image: ghcr.io/dangrondahl/hello-go-app
+        tag: ""
+        port: 8080
+        pullPolicy: IfNotPresent
