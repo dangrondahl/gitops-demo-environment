@@ -1,28 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.helloGo.name }}
+  name: {{ include "hello-go-infra.fullname" . }}
   labels:
-    app: {{ .Values.helloGo.name }}
+    {{- include "hello-go-infra.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Values.helloGo.name }}
+      {{- include "hello-go-infra.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
-        app: {{ .Values.helloGo.name }}
+        {{- include "hello-go-infra.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: {{ .Values.helloGo.name }}
-          image: "{{ .Values.helloGo.container.image }}:{{ .Values.helloGo.container.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.helloGo.container.pullPolicy }}
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.container.image }}:{{ .Values.container.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.container.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.helloGo.container.port }}
+              containerPort: {{ .Values.container.port }}
               protocol: TCP
