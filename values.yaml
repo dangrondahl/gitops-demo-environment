@@ -14,8 +14,8 @@ container:
     pullPolicy: IfNotPresent
 
 service:
-  type: ClusterIP
-  port: 8080
+  type: LoadBalancer
+  port: 8082
 
 ingress:
   enabled: false
