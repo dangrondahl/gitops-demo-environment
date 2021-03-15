@@ -1,4 +1,4 @@
-replicaCount: 3
+replicaCount: 10
 
 imagePullSecrets:
   - name: ghcr-creds
