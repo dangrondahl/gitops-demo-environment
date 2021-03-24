@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: app-slack-notification-fail-
+  annotations:
+    argocd.argoproj.io/hook: SyncFail
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      containers:
+      - name: slack-notification
+        image: curlimages/curl
+        command:
+          - "curl"
+          - "-X"
+          - "POST"
+          - "--data-urlencode"
+          - "payload={\"channel\": \"#gitops-alerts\", \"username\": \"Mrs. Deploy\", \"text\": \"App Sync failed :fire:\", \"icon_emoji\": \":older_woman:\"}"
+          - "https://hooks.slack.com/services/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"
+      restartPolicy: Never
+  backoffLimit: 2
