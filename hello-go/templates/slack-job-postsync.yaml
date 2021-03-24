@@ -12,13 +12,14 @@ spec:
       containers:
       - name: slack-notification
         image: curlimages/curl
-        command:
-          - "curl"
-          - "--fail"
-          - "-X"
-          - "POST"
-          - "--data-urlencode"
-          - "payload={\"channel\": \"#gitops-alerts\", \"username\": \"Mrs. Deploy\", \"text\": \"App Sync succeeded\", \"icon_emoji\": \":older_woman:\"}"
-          - "https://hooks.slack.com/services/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"
+        command: ["/bin/sh", "-c"] 
+        args:
+          - "curl --fail -X POST --data-urlencode 'payload={\"channel\": \"#gitops-alerts\", \"username\": \"Mrs. Deploy\", \"text\": \"App Sync succeeded\", \"icon_emoji\": \":older_woman:\"}' $SLACK_URL"
+        env: 
+        - name: SLACK_URL
+          valueFrom:
+            secretKeyRef:
+              name: slack-secret
+              key: slack_hook
       restartPolicy: Never
   backoffLimit: 2
