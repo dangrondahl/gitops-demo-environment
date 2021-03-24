@@ -14,10 +14,11 @@ spec:
         image: curlimages/curl
         command:
           - "curl"
+          - "--fail"
           - "-X"
           - "POST"
           - "--data-urlencode"
           - "payload={\"channel\": \"#gitops-alerts\", \"username\": \"Mrs. Deploy\", \"text\": \"App Sync succeeded\", \"icon_emoji\": \":older_woman:\"}"
-          - "https://hooks.slack.com/services/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"
+          - "https://hooks.slack.com/services/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"
       restartPolicy: Never
   backoffLimit: 2
