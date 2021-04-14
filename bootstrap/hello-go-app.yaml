@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hello-go
+  namespace: argocd
+spec:
+  project: default
+  source:
+    path: hello-go
+    repoURL: https://github.com/dangrondahl/gitops-demo-environment.git
+    targetRevision: master
+  destination:
+    namespace: dev
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
