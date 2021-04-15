@@ -14,7 +14,7 @@ spec:
         image: curlimages/curl
         command: ["/bin/sh", "-c"] 
         args:
-          - "curl --fail -X POST --data-urlencode 'payload={\"channel\": \"#gitops-alerts\", \"username\": \"Mrs. Deploy\", \"text\": \"App Sync succeeded\", \"icon_emoji\": \":older_woman:\"}' $SLACK_URL"
+          - "curl --fail -X POST --data-urlencode 'payload={\"channel\": \"#gitops-alerts\", \"username\": \"Mr. Argo\", \"text\": \"App Sync succeeded\", \"icon_emoji\": \":argocd:\"}' $SLACK_URL"
         env: 
         - name: SLACK_URL
           valueFrom:
